@@ -1,0 +1,30 @@
+# Node
+node_modules/
+
+# Build
+dist/
+build/
+.vite/
+.cache/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs / reports
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+coverage/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.env.docker
