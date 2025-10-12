@@ -197,11 +197,23 @@ display: block;
 
 
 .header_menu.active {
+
+  @media (max-width: 480px) {
+    .reg_list{
+    display: flex !important;
+    flex-direction: column;
+  }
+  .menu_body{
+    flex-direction: column;
+  }
+  height: 650px;
+  }
   .menu_list{
     display: flex;
            
    
   }
+
   .menu_logo, .reg_list{
     display: none;
   }
@@ -237,7 +249,7 @@ display: block;
 //==================================================
 
 ._container {
-  width: clamp(450px, 90%, $maxWidthContainer); // минимум 477px, максимум $maxWidthContainer, предпочитаемое 80%
+  width: clamp(350px, 90%, $maxWidthContainer); // минимум 477px, максимум $maxWidthContainer, предпочитаемое 80%
   margin: 0 auto;
   
   transition: width 0.3s ease;
@@ -344,6 +356,10 @@ a {
    width: 100%;
    justify-content: center;
   }
+
+   @media (max-width: 480px) {
+   display: none;
+   }
   
 
   .menu_link::after {
