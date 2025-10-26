@@ -1,0 +1,129 @@
+@import url("_common.scss");
+
+/* SIGN UP */
+
+.signup-wrap {
+    width: 490px;
+    background: var(--cream);
+    margin: 0 auto;
+    margin-top: 70px;
+    padding: 40px 0;
+    border-radius: 20px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03) inset;
+    position: relative;
+    max-height: 630px;
+
+    .btn-back {
+        position: absolute;
+        left: 50px;
+        top: 40px;
+        cursor: pointer;
+    }
+
+    .signup-title {
+        text-align: center;
+        color: #fff;
+        margin-top: 0;
+        margin-bottom: 40px;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 127px;
+        justify-content: center;
+        margin-bottom: 25px;
+        color: var(--olive);
+
+        .tab {
+            cursor: pointer;
+            position: relative;
+            font-size: 18px;
+
+            &.active {
+                font-weight: 600;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: -8px;
+                    height: 3px;
+                    width: 44px;
+                    margin: 0 auto;
+                    background: var(--olive);
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+
+    form {
+        max-width: 320px;
+        margin: 0 auto;
+
+        .field {
+            margin-bottom: 20px;
+            width: 320px;
+        }
+
+        .btn-register {
+            display: block;
+            width: 320px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--olive);
+            color: #fff;
+            font-family: "Libre Baskerville";
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.08);
+            margin-bottom: 23px;
+        }
+    }
+
+    .divider {
+        display: flex;
+        width: 320px;
+        align-items: center;
+        gap: 17px;
+        margin: 0 auto 14px;
+
+        hr {
+            flex: 1;
+            height: 1px;
+            border: none;
+            background: #000;
+        }
+    }
+
+    .google {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 14px auto;
+        width: 50px;
+        height: 50px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+
+        img {
+            height: 43px;
+            width: 43px;
+        }
+    }
+
+    .signup-foot {
+        text-align: center;
+        font-size: 16px;
+
+        a {
+            color: #0072b5;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+    }
+}
