@@ -1,6 +1,3 @@
-# Node
-node_modules/
-
 # Build
 dist/
 build/
@@ -28,3 +25,8 @@ Thumbs.db
 # Docker
 docker-compose.override.yml
 .env.docker
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
