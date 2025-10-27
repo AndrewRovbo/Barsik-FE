@@ -24,11 +24,20 @@ function LogIn() {
 		setLoading(true);
 
 		try {
-			const res = await fetch("/api/auth/login", {
+			// LOCAL ONLY
+			/*const res = await fetch("/api/auth/login", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email, password }),
 				// важно: просить браузер принять куку от сервера
+				credentials: "include"
+			});*/
+
+			const base = process.env.REACT_APP_API_URL || "";
+			const res = await fetch(`${base}/api/auth/login`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email, password }),
 				credentials: "include"
 			});
 
