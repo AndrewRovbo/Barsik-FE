@@ -15,7 +15,7 @@ function Home() {
             <Header />
 
             <section className="hero">
-                <div className="wrap">
+                <div className="main-wrap">
                     <div className="left">
                         <form className="finder" aria-label="find a sitter">
                             <label>I'm looking for:</label>
