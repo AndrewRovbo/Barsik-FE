@@ -24,15 +24,6 @@ function LogIn() {
 		setLoading(true);
 
 		try {
-			// LOCAL ONLY
-			/*const res = await fetch("/api/auth/login", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password }),
-				// важно: просить браузер принять куку от сервера
-				credentials: "include"
-			});*/
-
 			const base = process.env.REACT_APP_API_URL || "";
 			const res = await fetch(`${base}/api/auth/login`, {
 				method: "POST",
@@ -42,19 +33,19 @@ function LogIn() {
 			});
 
 			if (res.ok) {
-				// сервер возвращает LogInResponse { username, roles }
 				const body = await res.json();
-				// сохраняем краткую информацию о пользователе (токен в httpOnly-cookie)
 				localStorage.setItem("user", JSON.stringify({
 					email: body.username,
 					roles: body.roles
 				}));
-				// направляем на профиль
-				navigate("/profile");
+				navigate("/");
 			} else {
-				// читаем текст ошибки (бэкенд может возвращать текст)
 				const txt = await res.text();
-				setError(txt || `Login failed (status ${res.status})`);
+				if (res.status === 401) {
+					setError("Incorrect email or password. Please try again.");
+				} else {
+					setError(txt || `Login failed (status ${res.status})`);
+				}
 			}
 		} catch (err) {
 			console.error(err);

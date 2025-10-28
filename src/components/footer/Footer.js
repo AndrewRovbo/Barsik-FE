@@ -1,4 +1,5 @@
 import "./footer.scss"
+import { NavLink } from "react-router-dom";
 
 function Footer() {
     return (
@@ -12,8 +13,8 @@ function Footer() {
 
             <div className="footer-right">
                 <h1>Learn More:</h1>
-                <a href="./about-us.html">About Us</a>
-                <a href="./faq.html">FAQ</a>
+                <NavLink to="/about-us">About Us</NavLink>
+                <NavLink to="/faq">FAQ</NavLink>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms & Conditions</a>
             </div>

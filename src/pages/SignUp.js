@@ -11,7 +11,7 @@ function SignUp() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirm, setConfirm] = useState("");
-	const [role, setRole] = useState("OWNER"); // Ról réamhshocraithe - OWNER
+	const [role, setRole] = useState("OWNER");
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -21,9 +21,9 @@ function SignUp() {
 		if (!email) return "Email is required";
 		const re = /\S+@\S+\.\S+/;
 		if (!re.test(email)) return "Enter a valid email";
-		if (password.length < 6) return "Password must be at least 6 characters";
+		if (password.length < 8) return "Password must be at least 8 characters";
 		if (password !== confirm) return "Passwords do not match";
-		return null; // Filltear null má bhíonn an bhailíochtú rathúil
+		return null;
 	};
 
 	const handleSubmit = async (e) => {
@@ -43,17 +43,8 @@ function SignUp() {
 			role
 		};
 
-		// Seoladh an iarratais chuig an bhfreastalaí
 		setLoading(true);
 		try {
-			// LOCAL ONLY
-			/*const res = await fetch("/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
-				credentials: "include"
-			});*/
-			
 			const base = process.env.REACT_APP_API_URL || "";
 			const res = await fetch(`${base}/api/auth/register`, {
 				method: "POST",
@@ -65,7 +56,26 @@ function SignUp() {
 			if (res.status === 201) {
 				const text = await res.text();
 				setSuccessMsg(text || "User registered successfully");
-				setTimeout(() => navigate("/log-in"), 700);
+
+				const loginRes = await fetch(`${base}/api/auth/login`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ email, password }),
+					credentials: "include"
+				});
+
+				if (loginRes.ok) {
+					const body = await loginRes.json();
+					localStorage.setItem("user", JSON.stringify({
+						email: body.username,
+						roles: body.roles
+					}));
+
+					navigate("/");
+				} else {
+					setError("Login failed after registration.");
+				}
+
 			} else {
 				const errText = await res.text();
 				setError(errText || `Registration failed (status ${res.status})`);
