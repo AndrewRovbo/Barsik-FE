@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/signup-login.scss";
+import { api } from "../services/api";
 
 import back from "../img/icons/back.png";
 
@@ -24,32 +25,61 @@ function LogIn() {
 		setLoading(true);
 
 		try {
-			const base = process.env.REACT_APP_API_URL || "";
-			const res = await fetch(`${base}/api/auth/login`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password }),
-				credentials: "include"
+			const res = await api.post("/api/auth/login", { email, password });
+
+			// Debug: log the response to see what we're getting
+			console.log('Login response:', {
+				data: res.data,
+				headers: res.headers,
+				status: res.status
 			});
 
-			if (res.ok) {
-				const body = await res.json();
-				localStorage.setItem("user", JSON.stringify({
-					email: body.username,
-					roles: body.roles
-				}));
-				navigate("/");
-			} else {
-				const txt = await res.text();
-				if (res.status === 401) {
-					setError("Incorrect email or password. Please try again.");
-				} else {
-					setError(txt || `Login failed (status ${res.status})`);
-				}
+			// Store user info in localStorage (including token if present)
+			const userData = {
+				email: res.data.username,
+				roles: res.data.roles
+			};
+			
+			// Also store token in user data if present
+			if (res.data.token || res.data.accessToken || res.data.jwt) {
+				userData.token = res.data.token || res.data.accessToken || res.data.jwt;
 			}
+			
+			localStorage.setItem("user", JSON.stringify(userData));
+
+			// If the backend returns a token in the response body, store it in a cookie
+			// This allows the api interceptor to add it to the Authorization header
+			if (res.data.token || res.data.accessToken || res.data.jwt) {
+				const token = res.data.token || res.data.accessToken || res.data.jwt;
+				// Set cookie that can be read by JavaScript (non-httpOnly)
+				// Expires in 7 days
+				const expires = new Date();
+				expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
+				document.cookie = `JWT_TOKEN=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+				console.log('Token stored in cookie');
+			} else {
+				console.log('No token found in response body. Backend might be setting httpOnly cookie.');
+			}
+
+			navigate("/");
 		} catch (err) {
 			console.error(err);
-			setError("Connection error: could not reach server.");
+			if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') {
+				// Проверяем, не является ли это CORS ошибкой
+				if (err.message?.includes('CORS') || err.message?.includes('Access-Control')) {
+					setError("CORS error: Please check backend CORS configuration. Make sure the server is not sending duplicate Access-Control-Allow-Credentials headers.");
+				} else {
+					setError("Connection error: could not reach server. Please make sure the backend server is running on port 8080.");
+				}
+			} else if (err.response?.status === 401) {
+				setError("Incorrect email or password. Please try again.");
+			} else if (err.response?.data) {
+				setError(err.response.data.message || err.response.data || `Login failed (status ${err.response.status})`);
+			} else if (err.request) {
+				setError("Connection error: could not reach server.");
+			} else {
+				setError("An unexpected error occurred. Please try again.");
+			}
 		} finally {
 			setLoading(false);
 		}

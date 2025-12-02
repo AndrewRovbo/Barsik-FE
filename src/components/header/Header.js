@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "./header.scss";
 import logo from "../../img/logo.svg";
 import { initNavAnimation, initLanguageSwitch } from '../../scripts/headerScript';
@@ -7,16 +7,17 @@ import { initNavAnimation, initLanguageSwitch } from '../../scripts/headerScript
 function Header() {
     const navRef = useRef(null);
     const langRef = useRef(null);
+    const location = useLocation();
 
     useEffect(() => {
-        const cleanupNav = initNavAnimation(navRef.current);
+        const cleanupNav = initNavAnimation(navRef.current, location.pathname);
         const cleanupLang = initLanguageSwitch(langRef.current);
 
         return () => {
             if (typeof cleanupNav === 'function') cleanupNav();
             if (typeof cleanupLang === 'function') cleanupLang();
         };
-    }, []);
+    }, [location.pathname]);
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -45,7 +46,10 @@ function Header() {
                     </div>
 
                     {user ? (
-                        <NavLink className="btn-profile" to="/profile">PROFILE</NavLink>
+                        <>
+                            <NavLink className="btn-chat" to="/chat">CHAT</NavLink>
+                            <NavLink className="btn-profile" to="/profile">PROFILE</NavLink>
+                        </>
                     ) : (
                         <>
                             <NavLink className="btn-login" to="/log-in">LOG IN</NavLink>

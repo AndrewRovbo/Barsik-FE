@@ -45,8 +45,8 @@ function SignUp() {
 
 		setLoading(true);
 		try {
-			const base = process.env.REACT_APP_API_URL || "";
-			const res = await fetch(`${base}/api/auth/register`, {
+			// Use relative URL to go through proxy (configured in package.json)
+			const res = await fetch("/api/auth/register", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(payload),
@@ -55,27 +55,10 @@ function SignUp() {
 
 			if (res.status === 201) {
 				const text = await res.text();
-				setSuccessMsg(text || "User registered successfully");
-
-				const loginRes = await fetch(`${base}/api/auth/login`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ email, password }),
-					credentials: "include"
-				});
-
-				if (loginRes.ok) {
-					const body = await loginRes.json();
-					localStorage.setItem("user", JSON.stringify({
-						email: body.username,
-						roles: body.roles
-					}));
-
-					navigate("/");
-				} else {
-					setError("Login failed after registration.");
-				}
-
+				setSuccessMsg(text || "User registered successfully. Please log in.");
+				setTimeout(() => {
+					navigate("/log-in");
+				}, 1500);
 			} else {
 				const errText = await res.text();
 				setError(errText || `Registration failed (status ${res.status})`);
@@ -139,7 +122,7 @@ function SignUp() {
 				</div>
 
 				<button type="submit" className="btn-submit" disabled={loading}>
-					{loading ? "Registering..." : "REGISTER"}
+					{loading ? "REGISTERING..." : "REGISTER"}
 				</button>
 			</form>
 

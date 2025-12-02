@@ -1,4 +1,4 @@
-export function initNavAnimation(nav) {
+export function initNavAnimation(nav, currentPath = '') {
 	if (!nav) return () => {};
 	const links = Array.from(nav.querySelectorAll('a'));
 	if (!links.length) return () => {};
@@ -12,19 +12,37 @@ export function initNavAnimation(nav) {
 	}
 	indicator.classList.add('initializing');
 
-	let active = nav.querySelector('a.active') || links[0];
-
+	// Если мы на странице профиля, скрываем индикатор
+	const isProfilePage = currentPath === '/profile';
+	
+	let active = nav.querySelector('a.active');
+	
 	function moveTo(el) {
-		if (!el) return;
+		if (!el || isProfilePage) {
+			hideIndicator();
+			return;
+		}
 		const navRect = nav.getBoundingClientRect();
 		const rect = el.getBoundingClientRect();
 		indicator.style.left = (rect.left - navRect.left) + 'px';
 		indicator.style.width = rect.width + 'px';
+		indicator.style.opacity = '1';
 	}
-
-	moveTo(active);
-	void indicator.offsetWidth;
-	requestAnimationFrame(() => indicator.classList.remove('initializing'));
+	
+	function hideIndicator() {
+		indicator.style.width = '0';
+		indicator.style.opacity = '0';
+	}
+	
+	// Если нет активного элемента в nav или мы на странице профиля, скрываем индикатор
+	if (!active || isProfilePage) {
+		hideIndicator();
+		indicator.classList.remove('initializing');
+	} else {
+		moveTo(active);
+		void indicator.offsetWidth;
+		requestAnimationFrame(() => indicator.classList.remove('initializing'));
+	}
 
 	const handlers = new Map();
 

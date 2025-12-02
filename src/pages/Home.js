@@ -20,8 +20,8 @@ function Home() {
                         <form className="finder" aria-label="find a sitter">
                             <label>I'm looking for:</label>
                             <div className="field">
-                                <select aria-label="service">
-                                    <option value="" disabled selected hidden>Choose service</option>
+                                <select aria-label="service" defaultValue="">
+                                    <option value="" disabled hidden>Choose service</option>
                                     <option value="boarding">Pet Boarding</option>
                                     <option value="sitting">Pet Sitting</option>
                                     <option value="walking">Dog Walking</option>
