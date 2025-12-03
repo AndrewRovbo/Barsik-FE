@@ -1,24 +1,21 @@
 import axios from 'axios';
 
-// В development используем прокси (настроен в package.json и setupProxy.js), чтобы избежать CORS
-// В production используем полный URL из переменной окружения
-// Важно: в development baseURL должен быть пустым или относительным, чтобы работал прокси
+// ВАЖНО: используем полный URL для обхода CORS проблем
+// В production это будет через прокси на одном домене с фронтенду
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-// Принудительно используем пустой baseURL в development, чтобы прокси работал
-// Если REACT_APP_API_URL установлена, она будет использована (но это отключит прокси)
-// ВАЖНО: В development всегда используем пустой baseURL для работы прокси
+// В development используем полный URL бэкенда
+// В production используем относительный URL (будет проксирован через прокси на фронтенде)
 const API_URL = isDevelopment 
-	? '' 
-	: (process.env.REACT_APP_API_URL || 'http://localhost:8080');
+	? 'http://localhost:8080' 
+	: '';
 
 // Логирование для отладки (только в development)
 if (isDevelopment) {
 	console.log('API Configuration:', {
 		NODE_ENV: process.env.NODE_ENV,
-		REACT_APP_API_URL: process.env.REACT_APP_API_URL,
-		API_URL: API_URL || '(empty - using proxy)',
-		'Using proxy': !API_URL || API_URL === ''
+		API_URL: API_URL || '(empty - using relative URLs)',
+		FULL_API_URL: API_URL
 	});
 }
 
@@ -55,8 +52,6 @@ export const api = axios.create({
 		'Content-Type': 'application/json',
 	},
 	withCredentials: true, // Отправлять cookies
-	// В development используем прокси, поэтому не указываем полный URL
-	// Proxy настроен в package.json и будет перенаправлять запросы на backend
 });
 
 // Interceptor для добавления JWT токена в заголовок Authorization
@@ -66,12 +61,21 @@ api.interceptors.request.use(
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
 		} else {
-			// Debug: log when token is not found
+			// Debug: log when token is not found for auth requests
 			if (isDevelopment && config.url?.includes('/auth/')) {
-				console.log('No JWT token found in cookies for request:', config.url);
-				console.log('Available cookies:', document.cookie);
+				console.log('No JWT token found for request:', config.url);
+				console.log('This is expected for login/signup requests');
 			}
 		}
+		
+		// Debug: log request details
+		if (isDevelopment) {
+			console.log(`[API Request] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`, {
+				data: config.data,
+				headers: config.headers
+			});
+		}
+		
 		return config;
 	},
 	(error) => {
@@ -79,9 +83,14 @@ api.interceptors.request.use(
 	}
 );
 
-// Interceptor для обработки ответов - извлекаем токен из Set-Cookie заголовка
+// Interceptor для обработки ответов
 api.interceptors.response.use(
 	(response) => {
+		// Debug: log response
+		if (isDevelopment) {
+			console.log(`[API Response] ${response.status} ${response.config.url}`, response.data);
+		}
+		
 		// Если это ответ на логин, проверяем Set-Cookie заголовки
 		if (response.config.url?.includes('/auth/login') && response.headers['set-cookie']) {
 			const setCookieHeaders = Array.isArray(response.headers['set-cookie']) 
@@ -106,15 +115,20 @@ api.interceptors.response.use(
 		return response;
 	},
 	(error) => {
+		if (isDevelopment) {
+			console.error(`[API Error] ${error.response?.status || 'Network'} ${error.config?.url}`, {
+				message: error.message,
+				response: error.response?.data,
+				status: error.response?.status
+			});
+		}
+		
 		if (error.response?.status === 401) {
-			// Если токен истек или невалиден, можно перенаправить на страницу входа
+			// JWT истек или невалиден
 			console.error('Unauthorized: JWT token is missing or invalid');
-			console.error('Request URL:', error.config?.url);
-			console.error('Available cookies:', document.cookie);
-			// Можно добавить логику перенаправления:
-			// if (window.location.pathname !== '/log-in') {
-			//   window.location.href = '/log-in';
-			// }
+			// Очищаем токен
+			document.cookie = 'JWT_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+			localStorage.removeItem('user');
 		}
 		return Promise.reject(error);
 	}

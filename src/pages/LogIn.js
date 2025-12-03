@@ -27,56 +27,54 @@ function LogIn() {
 		try {
 			const res = await api.post("/api/auth/login", { email, password });
 
-			// Debug: log the response to see what we're getting
+			// Debug: log the response
 			console.log('Login response:', {
 				data: res.data,
-				headers: res.headers,
-				status: res.status
+				status: res.status,
+				statusText: res.statusText
 			});
 
-			// Store user info in localStorage (including token if present)
+			// Store user info in localStorage
+			// Support both 'username' and 'Username' field names from backend
 			const userData = {
-				email: res.data.username,
-				roles: res.data.roles
+				email: res.data.username || res.data.Username || res.data.email || email,
+				roles: res.data.roles || []
 			};
 			
-			// Also store token in user data if present
+			// Store token if present
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				userData.token = res.data.token || res.data.accessToken || res.data.jwt;
 			}
 			
 			localStorage.setItem("user", JSON.stringify(userData));
 
-			// If the backend returns a token in the response body, store it in a cookie
-			// This allows the api interceptor to add it to the Authorization header
+			// Store token in cookie if present in response body
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				const token = res.data.token || res.data.accessToken || res.data.jwt;
-				// Set cookie that can be read by JavaScript (non-httpOnly)
-				// Expires in 7 days
 				const expires = new Date();
 				expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
 				document.cookie = `JWT_TOKEN=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
 				console.log('Token stored in cookie');
-			} else {
-				console.log('No token found in response body. Backend might be setting httpOnly cookie.');
 			}
 
 			navigate("/");
 		} catch (err) {
-			console.error(err);
-			if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') {
-				// Проверяем, не является ли это CORS ошибкой
-				if (err.message?.includes('CORS') || err.message?.includes('Access-Control')) {
-					setError("CORS error: Please check backend CORS configuration. Make sure the server is not sending duplicate Access-Control-Allow-Credentials headers.");
-				} else {
-					setError("Connection error: could not reach server. Please make sure the backend server is running on port 8080.");
-				}
+			console.error('Login error:', err);
+			
+			if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+				setError("Connection error: Backend server is not running. Make sure the backend is started on port 8080.");
+			} else if (err.response?.status === 400) {
+				setError(err.response.data?.message || "Invalid email or password format.");
 			} else if (err.response?.status === 401) {
 				setError("Incorrect email or password. Please try again.");
+			} else if (err.response?.status === 500) {
+				setError("Server error. Please try again later.");
+			} else if (err.response?.data?.message) {
+				setError(err.response.data.message);
 			} else if (err.response?.data) {
-				setError(err.response.data.message || err.response.data || `Login failed (status ${err.response.status})`);
+				setError(typeof err.response.data === 'string' ? err.response.data : "Login failed. Please try again.");
 			} else if (err.request) {
-				setError("Connection error: could not reach server.");
+				setError("No response from server. Check if backend is running.");
 			} else {
 				setError("An unexpected error occurred. Please try again.");
 			}

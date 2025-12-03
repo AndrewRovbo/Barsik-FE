@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/signup-login.scss";
+import { api } from "../services/api";
 
 import back from "../img/icons/back.png";
 import google from "../img/icons/google-logo.webp";
@@ -45,27 +46,33 @@ function SignUp() {
 
 		setLoading(true);
 		try {
-			// Use relative URL to go through proxy (configured in package.json)
-			const res = await fetch("/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
-				credentials: "include"
-			});
+			const res = await api.post("/api/auth/register", payload);
 
-			if (res.status === 201) {
-				const text = await res.text();
-				setSuccessMsg(text || "User registered successfully. Please log in.");
-				setTimeout(() => {
-					navigate("/log-in");
-				}, 1500);
-			} else {
-				const errText = await res.text();
-				setError(errText || `Registration failed (status ${res.status})`);
-			}
+			console.log('Registration response:', res.data);
+			setSuccessMsg("User registered successfully. Please log in.");
+			setTimeout(() => {
+				navigate("/log-in");
+			}, 1500);
 		} catch (err) {
-			setError("Connection error: could not reach server.");
-			console.error(err);
+			console.error('Registration error:', err);
+			
+			if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+				setError("Connection error: Backend server is not running. Make sure the backend is started on port 8080.");
+			} else if (err.response?.status === 400) {
+				setError(err.response.data?.message || "Invalid input data. Please check your email and password.");
+			} else if (err.response?.status === 409) {
+				setError("Email already exists. Please use a different email.");
+			} else if (err.response?.status === 500) {
+				setError("Server error. Please try again later.");
+			} else if (err.response?.data?.message) {
+				setError(err.response.data.message);
+			} else if (err.response?.data) {
+				setError(typeof err.response.data === 'string' ? err.response.data : "Registration failed. Please try again.");
+			} else if (err.request) {
+				setError("No response from server. Check if backend is running.");
+			} else {
+				setError("An unexpected error occurred. Please try again.");
+			}
 		} finally {
 			setLoading(false);
 		}
