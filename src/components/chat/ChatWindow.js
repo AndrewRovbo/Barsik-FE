@@ -1,36 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import MessageInput from "./MessageInput";
-import { getChatMessages } from "../../services/chatService";
 import { connectWebSocket } from "../../services/websocketService";
+import { UserContext } from "../../UserContext";
+import "../../styles/ChatPage.scss";
 
-const ChatWindow = ({ chatId, currentUserId, isEmpty }) => {
+const ChatWindow = ({ chatId, isEmpty, users }) => {
   const [messages, setMessages] = useState([]);
+  const { user: currentUser } = useContext(UserContext);
+  const messagesEndRef = useRef(null);
 
-  // загружаем историю
+
+  const chatPartner = chatId !== 0 ? users.find((u) => u.id === chatId) : null;
+
   useEffect(() => {
-    if (!chatId) {
-      setMessages([]);
-      return;
-    }
+    if (!currentUser) return;
 
-    const load = async () => {
-      const res = await getChatMessages(chatId);
-      setMessages(res.content || []);
-    };
-    load();
-  }, [chatId]);
-
-  // подключение к WebSocket (1 раз)
-  useEffect(() => {
-    const handler = (msg) => {
-      // получаем по WS только новые сообщения
-      if (msg.chatId === chatId) {
-        setMessages((prev) => [...prev, msg]);
+    const handleMessage = (msg) => {
+      const isMe = currentUser.email === msg.senderEmail;
+console.log("Current user from context:", currentUser);
+      if ((chatId === 0 && msg.chatId === 0) || (chatId !== 0 && msg.chatId === chatId)) {
+        setMessages((prev) => [...prev, { ...msg, isMe }]);
       }
     };
 
-    connectWebSocket(currentUserId, handler);
-  }, []);
+    connectWebSocket(handleMessage);
+  }, [chatId, currentUser]);
+
+ 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   if (isEmpty) {
     return (
@@ -45,25 +44,41 @@ const ChatWindow = ({ chatId, currentUserId, isEmpty }) => {
 
   return (
     <div className="chat-window">
+      {/* Заголовок чата */}
+      <div className="chat-window__header">
+        {chatId === 0 ? (
+          <h3>Общий чат</h3>
+        ) : chatPartner ? (
+          <h3>{chatPartner.firstName ?? chatPartner.name}</h3>
+        ) : (
+          <h3>Чат</h3>
+        )}
+      </div>
+
+      {/* Сообщения */}
       <div className="chat-window__messages">
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`chat-window__message ${
-              msg.senderId === currentUserId ? "from-owner" : "from-sitter"
-            }`}
+            className={`chat-window__message ${msg.isMe ? "from-me" : "from-oth"}`}
           >
+            {/* Аватар слева для чужих, справа для своих */}
+            {!msg.isMe && <div className="msg-avatar" />}
+            
             <div className="chat-window__bubble">
               <p>{msg.content}</p>
               <span className="msg-time">
-                {new Date(msg.timestamp).toLocaleTimeString()}
+                {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </span>
             </div>
+
+            {msg.isMe && <div className="msg-avatar" />}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
-      <MessageInput chatId={chatId} currentUserId={currentUserId} />
+      <MessageInput chatId={chatId} />
     </div>
   );
 };

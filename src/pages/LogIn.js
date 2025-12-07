@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/signup-login.scss";
 import { api } from "../services/api";
-
+import { setJwtToken, connectWebSocket } from '../services/websocketService';
+import { UserContext } from "../UserContext";
 import back from "../img/icons/back.png";
 
 function LogIn() {
 	const navigate = useNavigate();
-
+const { saveUser } = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -47,13 +48,18 @@ function LogIn() {
 			}
 			
 			localStorage.setItem("user", JSON.stringify(userData));
-
+            saveUser(userData);
 			// Store token in cookie if present in response body
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				const token = res.data.token || res.data.accessToken || res.data.jwt;
 				const expires = new Date();
 				expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
+				setJwtToken(token);
+				
 				document.cookie = `JWT_TOKEN=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+				connectWebSocket((message) => {
+  console.log("New message:", message);
+});
 				console.log('Token stored in cookie');
 			}
 

@@ -134,7 +134,7 @@ api.interceptors.response.use(
 	}
 );
 
-export const getUsers = () => api.get('/api/users'); 
+export const getUsers = () => api.get('/api/users' ); 
 export const createUser = (user) => api.post('/api/users', user);
 export const updateUser = (id, userData) => api.put(`/api/users/${id}`, userData);
 export const deleteUser = (id) => api.delete(`/api/users/${id}`);

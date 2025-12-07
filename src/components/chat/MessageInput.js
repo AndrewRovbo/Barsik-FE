@@ -2,17 +2,17 @@ import { useState } from "react";
 import { sendChatMessage } from "../../services/websocketService";
 import "../../styles/ChatPage.scss";
 
-const MessageInput = ({ chatId, currentUserId }) => {
+const MessageInput = ({ chatId }) => {
   const [text, setText] = useState("");
 
   const submit = () => {
     if (!text.trim()) return;
 
     sendChatMessage({
-      chatId,
-      senderId: currentUserId,
+      chatId: chatId ?? 0, // если chatId нет → общий чат
       content: text,
-      type: "TEXT",
+      type:  "MESSAGE",
+      timestamp: new Date(),
     });
 
     setText("");
@@ -24,6 +24,9 @@ const MessageInput = ({ chatId, currentUserId }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Напишите сообщение..."
+        onKeyPress={(e) => {
+          if (e.key === "Enter") submit();
+        }}
       />
       <button onClick={submit}>➤</button>
     </div>
