@@ -7,6 +7,44 @@
     --olive: #6B705C;
     --lavender: #D0C6E1;
     --container: 1060px;
+    /* default font sizes */
+    --default-font-size: 16px;
+    --base-font-size: var(--default-font-size);
+}
+
+/*
+    To use a custom Chinese font (TTF) only when Chinese is selected:
+    1. Put your font file (e.g. `MyChinese.ttf`) into `src/fonts/`.
+         Example path: `src/fonts/MyChinese.ttf`
+    2. The @font-face below registers the font. We use a CSS class
+         `.lang-zh` applied to <html> to enable the font for Chinese only.
+    3. The class is toggled in `src/scripts/headerScript.js` when language changes.
+*/
+
+@font-face {
+    font-family: 'MyChinese';
+    src: local('MyChinese'),
+             url('../fonts/MyChinese.ttf') format('truetype');
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* When Chinese is active, use the custom font as primary for all text.
+   We apply it broadly to every element under <html class="lang-zh"> so
+   headings, buttons, inputs and other UI elements use the font too. */
+.lang-zh,
+.lang-zh * {
+    font-family: 'MyChinese', "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif !important;
+}
+
+/* Specific elements where some browsers may preserve their own font-family
+   (inputs, buttons, selects, textareas) — ensure they also use the font */
+.lang-zh input,
+.lang-zh textarea,
+.lang-zh select,
+.lang-zh button {
+    font-family: 'MyChinese', "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif !important;
 }
 
 * { 
@@ -15,9 +53,27 @@
 
 body {
     font-family: "Montserrat";
-    font-size: 16px;
-    line-height: 25px;
+    font-size: var(--base-font-size);
+    line-height: 1.56; /* ~25px at 16px base */
     background: #fff;
+}
+
+/* Increase base font size by 3px for Chinese locale */
+html.lang-zh {
+    --base-font-size: calc(var(--default-font-size) + 3px);
+}
+
+/* For Chinese locale: ensure text that is normally italic elsewhere
+   (e.g. wrapped in <em> or <i> or given an .italic helper class)
+   is shown non-italic and bold instead. We also force the Chinese
+   font family on those elements to avoid fallback italics from other
+   fonts. */
+html.lang-zh em,
+html.lang-zh i,
+html.lang-zh .italic {
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-family: 'MyChinese', "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif !important;
 }
 
 .wrap {

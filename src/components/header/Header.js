@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import "./header.scss";
 import logo from "../../img/logo.svg";
 import { initNavAnimation, initLanguageSwitch } from '../../scripts/headerScript';
 
 function Header() {
+    const { t } = useTranslation();
     const navRef = useRef(null);
     const langRef = useRef(null);
     const location = useLocation();
@@ -25,10 +27,10 @@ function Header() {
         <header>
             <div className="header-wrap topbar">
                 <nav ref={navRef} className="nav">
-                    <NavLink to="/" end>HOME</NavLink>
-                    <NavLink to="/about-us" end>ABOUT US</NavLink>
-                    <NavLink to="/faq" end>FAQ</NavLink>
-                    <a href="#contacts">CONTACTS</a>
+                    <NavLink to="/" end>{t('nav.home', 'HOME')}</NavLink>
+                    <NavLink to="/about-us" end>{t('nav.about', 'ABOUT US')}</NavLink>
+                    <NavLink to="/faq" end>{t('nav.faq', 'FAQ')}</NavLink>
+                    <a href="#contacts">{t('nav.contacts', 'CONTACTS')}</a>
                 </nav>
 
                 <div className="logo"><img src={logo} alt="Barsik logo" /></div>
@@ -47,13 +49,13 @@ function Header() {
 
                     {user ? (
                         <>
-                            <NavLink className="btn-chat" to="/chat">CHAT</NavLink>
-                            <NavLink className="btn-profile" to="/profile">PROFILE</NavLink>
+                            <NavLink className="btn-chat" to="/chat">{t('nav.chat', 'CHAT')}</NavLink>
+                            <NavLink className="btn-profile" to="/profile">{t('nav.profile', 'PROFILE')}</NavLink>
                         </>
                     ) : (
                         <>
-                            <NavLink className="btn-login" to="/log-in">LOG IN</NavLink>
-                            <NavLink className="btn-signup" to="/sign-up">SIGN UP</NavLink>
+                            <NavLink className="btn-login" to="/log-in">{t('nav.login', 'LOG IN')}</NavLink>
+                            <NavLink className="btn-signup" to="/sign-up">{t('nav.signup', 'SIGN UP')}</NavLink>
                         </>
                     )}
                 </div>

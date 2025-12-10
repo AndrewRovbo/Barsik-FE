@@ -35,8 +35,8 @@ console.log("Current user from context:", currentUser);
     return (
       <div className="chat-window chat-window--empty">
         <div className="empty-message">
-          <h2>Выберите чат</h2>
-          <p>Чтобы начать общение, выберите диалог слева.</p>
+          <h2>Select chat</h2>
+          <p>To start a conversation, select the conversation on the left.</p>
         </div>
       </div>
     );
@@ -47,11 +47,11 @@ console.log("Current user from context:", currentUser);
       {/* Заголовок чата */}
       <div className="chat-window__header">
         {chatId === 0 ? (
-          <h3>Общий чат</h3>
+          <h3>General chat</h3>
         ) : chatPartner ? (
           <h3>{chatPartner.firstName ?? chatPartner.name}</h3>
         ) : (
-          <h3>Чат</h3>
+          <h3>Chat</h3>
         )}
       </div>
 

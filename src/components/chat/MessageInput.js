@@ -23,7 +23,7 @@ const MessageInput = ({ chatId }) => {
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Напишите сообщение..."
+        placeholder="Write a message..."
         onKeyPress={(e) => {
           if (e.key === "Enter") submit();
         }}

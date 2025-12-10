@@ -5,8 +5,10 @@ import { api } from "../services/api";
 import { setJwtToken, connectWebSocket } from '../services/websocketService';
 import { UserContext } from "../UserContext";
 import back from "../img/icons/back.png";
+import { useTranslation } from 'react-i18next';
 
 function LogIn() {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 const { saveUser } = useContext(UserContext);
 	const [email, setEmail] = useState("");
@@ -19,7 +21,7 @@ const { saveUser } = useContext(UserContext);
 		setError(null);
 
 		if (!email || !password) {
-			setError("Email and password are required.");
+			setError(t('login.errors.required', 'Email and password are required.'));
 			return;
 		}
 
@@ -68,21 +70,21 @@ const { saveUser } = useContext(UserContext);
 			console.error('Login error:', err);
 			
 			if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
-				setError("Connection error: Backend server is not running. Make sure the backend is started on port 8080.");
+				setError(t('login.errors.connection', 'Connection error: Backend server is not running. Make sure the backend is started on port 8080.'));
 			} else if (err.response?.status === 400) {
-				setError(err.response.data?.message || "Invalid email or password format.");
+				setError(err.response.data?.message || t('login.errors.invalid_format', 'Invalid email or password format.'));
 			} else if (err.response?.status === 401) {
-				setError("Incorrect email or password. Please try again.");
+				setError(t('login.errors.invalid_credentials', 'Incorrect email or password. Please try again.'));
 			} else if (err.response?.status === 500) {
-				setError("Server error. Please try again later.");
+				setError(t('login.errors.server', 'Server error. Please try again later.'));
 			} else if (err.response?.data?.message) {
 				setError(err.response.data.message);
 			} else if (err.response?.data) {
-				setError(typeof err.response.data === 'string' ? err.response.data : "Login failed. Please try again.");
+				setError(typeof err.response.data === 'string' ? err.response.data : t('login.errors.failed', 'Login failed. Please try again.'));
 			} else if (err.request) {
-				setError("No response from server. Check if backend is running.");
+				setError(t('login.errors.no_response', 'No response from server. Check if backend is running.'));
 			} else {
-				setError("An unexpected error occurred. Please try again.");
+				setError(t('login.errors.unexpected', 'An unexpected error occurred. Please try again.'));
 			}
 		} finally {
 			setLoading(false);
@@ -91,18 +93,18 @@ const { saveUser } = useContext(UserContext);
 
 	return (
 		<div className="auth-wrap">
-			<button className="btn-back" aria-label="Back">
-				<NavLink to="/"><img src={back} alt="Back" /></NavLink>
+			<button className="btn-back" aria-label={t('auth.back','Back')}>
+				<NavLink to="/"><img src={back} alt={t('auth.back','Back')} /></NavLink>
 			</button>
 
-			<h1 className="signup-title">WELCOME BACK</h1>
+			<h1 className="signup-title">{t('login.title','WELCOME BACK')}</h1>
 
 			<form id="loginForm" noValidate onSubmit={handleSubmit}>
 				<div className="field">
 					<input
 						type="email"
 						name="email"
-						placeholder="Email"
+						placeholder={t('login.email_placeholder','Email')}
 						required
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
@@ -113,7 +115,7 @@ const { saveUser } = useContext(UserContext);
 					<input
 						type="password"
 						name="password"
-						placeholder="Password"
+						placeholder={t('login.password_placeholder','Password')}
 						required
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
@@ -121,11 +123,11 @@ const { saveUser } = useContext(UserContext);
 				</div>
 
 				<button type="submit" className="btn-submit" disabled={loading}>
-					{loading ? "Signing in..." : "LOG IN"}
+					{loading ? t('login.signing_in','Signing in...') : t('login.log_in','LOG IN')}
 				</button>
 			</form>
 
-			<div className="signup-foot">No account yet? <NavLink to="/sign-up">Sign up</NavLink></div>
+				<div className="signup-foot">{t('login.no_account','No account yet?')} <NavLink to="/sign-up">{t('login.sign_up','Sign up')}</NavLink></div>
 
 			{error && <div className="error" role="alert">{error}</div>}
 		</div>

@@ -1,28 +1,33 @@
-/*
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import Backend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
 
-i18n
-.use(Backend)
-.use(LanguageDetector)
-.use(initReactI18next)
-.init({
-	fallbackLng: 'en',
-	supportedLngs: ['en','ru','be','zh-CN'],
-	ns: ['common'],
-	defaultNS: 'common',
-	backend: {
-		loadPath: '/locales/{{lng}}/{{ns}}.json'
-	},
-	interpolation: {
-		escapeValue: false
-	},
-	react: {
-		useSuspense: true
-	}
+import enCommon from './locales/en/common.json';
+import ruCommon from './locales/ru/common.json';
+import beCommon from './locales/be/common.json';
+import zhCommon from './locales/zh/common.json';
+
+const resources = {
+  en: { common: enCommon },
+  ru: { common: ruCommon },
+  be: { common: beCommon },
+  zh: { common: zhCommon }
+};
+
+function storedToLng() {
+  const saved = localStorage.getItem('siteLang');
+  if (!saved) return 'en';
+  const map = { EN: 'en', RU: 'ru', BE: 'be', ZH: 'zh' };
+  return map[saved] || saved.toLowerCase() || 'en';
+}
+
+i18n.use(initReactI18next).init({
+  resources,
+  lng: storedToLng(),
+  fallbackLng: 'en',
+  ns: ['common'],
+  defaultNS: 'common',
+  interpolation: { escapeValue: false },
+  react: { useSuspense: false }
 });
 
 export default i18n;
-*/

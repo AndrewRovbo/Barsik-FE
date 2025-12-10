@@ -1,3 +1,5 @@
+import i18n from '../i18n';
+
 export function initNavAnimation(nav, currentPath = '') {
 	if (!nav) return () => {};
 	const links = Array.from(nav.querySelectorAll('a'));
@@ -92,9 +94,9 @@ export function initLanguageSwitch(root) {
 	if (!langBtn || !langList) return () => {};
 
 	const switchRoot = root;
-	const saved = localStorage.getItem('siteLang') || 'EN';
+	const saved = localStorage.getItem('siteLang') || (i18n && i18n.language ? (i18n.language === 'en' ? 'EN' : i18n.language.toUpperCase()) : 'EN');
 
-	function setLanguage(code, { save = true } = {}) {
+    function setLanguage(code, { save = true } = {}) {
 		langBtn.textContent = code;
 		langBtn.setAttribute('aria-label', 'Language: ' + code);
 
@@ -108,6 +110,23 @@ export function initLanguageSwitch(root) {
 		langBtn.setAttribute('aria-expanded', 'false');
 
 		if (save) localStorage.setItem('siteLang', code);
+
+		// map visual code to i18next language codes and change language
+		const map = { EN: 'en', RU: 'ru', BE: 'be', ZH: 'zh' };
+		const lng = map[code] || code.toLowerCase();
+		if (i18n && typeof i18n.changeLanguage === 'function') {
+			try { i18n.changeLanguage(lng); } catch (e) { /* ignore */ }
+		}
+
+		// Add/remove class on <html> so CSS can target Chinese locale
+		try {
+			const root = document.documentElement;
+			if (code === 'ZH' || lng === 'zh') {
+				root.classList.add('lang-zh');
+			} else {
+				root.classList.remove('lang-zh');
+			}
+		} catch (e) { /* ignore when running outside browser */ }
 	}
 
 	const onBtnClick = (e) => {

@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "faq": "常见问题",
+    "contacts": "联系方式",
+    "chat": "聊天",
+    "profile": "个人资料",
+    "login": "登录",
+    "signup": "注册"
+  },
+  "finder": {
+    "im_looking": "我正在寻找：",
+    "choose_service": "选择服务",
+    "near": "附近：",
+    "search_location": "搜索位置...",
+    "find_a_sitter": "寻找看护！"
+  },
+  "service": {
+    "boarding": "宠物寄养",
+    "sitting": "宠物看护",
+    "walking": "遛狗",
+    "taxi": "宠物专车",
+    "grooming": "美容护理"
+  },
+  "hero": {
+    "the_trust": "信赖",
+    "your_pet_deserves": "你的宠物值得拥有"
+  },
+  "services": {
+    "title": "我们的服务"
+  },
+  "how": {
+    "title": "运作方式",
+    "find_sitter": {
+      "title": "找到合适的看护",
+      "desc": "浏览资料，比对经验、评价和可用性，选择最适合您宠物的人选。"
+    },
+    "make_request": {
+      "title": "发起请求",
+      "desc": "发送预订请求，在聊天中讨论细节，并确认时间、地点和付款。"
+    },
+    "meet_updates": {
+      "title": "见面与更新",
+      "desc": "安排会面交接说明，并在照护期间收到定期的照片和文本更新。"
+    }
+  },
+  "about": {
+    "welcome": "欢迎来到 <strong>Paw & Home</strong> — 社区宠物看护服务，我们以关怀、一致性和善意照顾您的宠物。",
+    "what": {
+      "title": "我们做什么",
+      "item1": "宠物看护 — 个性化上门服务，检查、喂养并陪伴您的宠物。",
+      "item2": "宠物寄养 — 在家庭环境中提供安全的过夜照护。",
+      "item3": "遛狗 — 为各年龄段的狗提供定期散步与运动。",
+      "item4": "宠物专车 — 安全送至兽医或美容院。",
+      "item5": "美容护理 — 基础美容与护理，保持毛发健康。"
+    },
+    "why": {
+      "title": "为什么选择我们",
+      "item1": "投保且经过背景检查的看护人员",
+      "item2": "为每只宠物制定个性化方案",
+      "item3": "清晰且友好的沟通"
+    }
+  },
+  "footer": {
+    "contact_heading": "有问题或需要帮助？",
+    "contact_us": "联系我们：",
+    "email": "barsik@mail.com",
+    "phone": "+375 (xx) xxx-xx-xx",
+    "copyright": "© 2025 Barsik Inc. 版权所有。",
+    "learn_more": "了解更多：",
+    "privacy": "隐私政策",
+    "terms": "条款与条件"
+  },
+  "auth": {
+    "back": "返回",
+    "try_again": "重试",
+    "or": "或"
+  },
+  "login": {
+    "title": "欢迎回来",
+    "email_placeholder": "邮箱",
+    "password_placeholder": "密码",
+    "signing_in": "登录中...",
+    "log_in": "登录",
+    "no_account": "还没有账号？",
+    "sign_up": "注册",
+    "errors": {
+      "required": "需要邮箱和密码。",
+      "connection": "连接错误：后端未运行。请确保后端在端口 8080 上运行。",
+      "invalid_format": "邮箱或密码格式不正确。",
+      "invalid_credentials": "邮箱或密码错误。请重试。",
+      "server": "服务器错误。请稍后再试。",
+      "failed": "登录失败。请重试。",
+      "no_response": "服务器无响应。检查后端是否已启动。",
+      "unexpected": "发生未知错误。请重试。"
+    }
+  },
+  "signup": {
+    "title": "加入我们！",
+    "email_placeholder": "邮箱",
+    "password_placeholder": "密码",
+    "confirm_placeholder": "确认密码",
+    "role_label": "角色",
+    "role_owner": "主人",
+    "role_sitter": "看护",
+    "registering": "注册中...",
+    "register": "注册",
+    "google_alt": "使用 Google 登录",
+    "google_placeholder": "Google 登录占位",
+    "already": "已有账号？",
+    "log_in": "登录",
+    "success": "用户注册成功。请登录。",
+    "errors": {
+      "email_required": "需要邮箱",
+      "invalid_email": "请输入有效邮箱",
+      "password_length": "密码至少需要 8 个字符",
+      "password_mismatch": "两次输入的密码不一致",
+      "connection": "连接错误：后端未运行。请确保后端在端口 8080 上运行。",
+      "invalid_input": "输入无效。请检查邮箱和密码。",
+      "exists": "邮箱已存在。请使用不同的邮箱。",
+      "server": "服务器错误。请稍后再试。",
+      "failed": "注册失败。请重试。",
+      "no_response": "服务器无响应。检查后端是否已启动。",
+      "unexpected": "发生未知错误。请重试。"
+    }
+  },
+  "profile": {
+    "alerts": {
+      "updated": "个人资料已成功更新！",
+      "update_failed": "更新个人资料失败。请稍后再试。",
+      "owner_updated": "主人资料已更新！",
+      "owner_update_failed": "更新主人资料失败。请稍后再试。",
+      "sitter_updated": "看护资料已更新！",
+      "sitter_update_failed": "更新看护资料失败。请稍后再试。",
+      "availability_updated": "可用性已更新！",
+      "availability_update_failed": "更新可用性失败。请稍后再试。",
+      "pet_added": "宠物添加成功！",
+      "add_pet_failed": "添加宠物失败。请稍后再试。",
+      "pet_updated": "宠物更新成功！",
+      "update_pet_failed": "更新宠物失败。请稍后再试。",
+      "pet_deleted": "宠物已删除！",
+      "delete_pet_failed": "删除宠物失败。请稍后再试。",
+      "delete_failed": "删除账户失败。请稍后再试。"
+    },
+    "confirm": {
+      "delete_pet": "您确定要删除此宠物吗？",
+      "delete_account": "您确定要删除您的帐户吗？此操作不可撤销。"
+    },
+    "loading": "正在加载个人资料...",
+    "saving": "保存中...",
+    "edit": {
+      "basic_info": "编辑基本信息",
+      "owner_profile": "编辑主人资料",
+      "sitter_profile": "编辑看护资料"
+    },
+    "labels": {
+      "email": "邮箱",
+      "first_name": "名字",
+      "last_name": "姓氏",
+      "phone": "电话",
+      "avatar": "头像链接",
+      "address": "地址"
+    },
+    "actions": {
+      "save_user": "保存用户信息"
+    }
+  }
+}

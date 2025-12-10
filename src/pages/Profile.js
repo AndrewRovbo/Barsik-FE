@@ -5,9 +5,11 @@ import { api } from "../services/api";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import "../styles/profile.scss";
+import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const [profile, setProfile] = useState(null);
 	const [loadingProfile, setLoadingProfile] = useState(true);
@@ -118,7 +120,7 @@ export default function Profile() {
 			}
 		}
 
-		setErrorProfile("Failed to load profile. Please try again later.");
+		setErrorProfile(t('profile.errors.load_failed','Failed to load profile. Please try again later.'));
 		setLoadingProfile(false);
 	}
 
@@ -156,10 +158,10 @@ export default function Profile() {
 			await api.put("/api/profile/user", editForm);
 			await fetchProfile();
 			setIsEditing(false);
-			alert("Profile updated successfully!");
+			alert(t('profile.alerts.updated','Profile updated successfully!'));
 		} catch (error) {
 			console.error("Failed to update profile:", error);
-			alert("Failed to update profile. Please try again.");
+			alert(t('profile.alerts.update_failed','Failed to update profile. Please try again.'));
 		} finally {
 			setSaving(false);
 		}
@@ -170,10 +172,10 @@ export default function Profile() {
 		try {
 			await api.put("/api/profile/owner", ownerForm);
 			await fetchProfile();
-			alert("Owner profile updated successfully!");
+			alert(t('profile.alerts.owner_updated','Owner profile updated successfully!'));
 		} catch (error) {
 			console.error("Failed to update owner profile:", error);
-			alert("Failed to update owner profile. Please try again.");
+			alert(t('profile.alerts.owner_update_failed','Failed to update owner profile. Please try again.'));
 		} finally {
 			setSaving(false);
 		}
@@ -189,10 +191,10 @@ export default function Profile() {
 			};
 			await api.put("/api/profile/sitter", payload);
 			await fetchProfile();
-			alert("Sitter profile updated successfully!");
+			alert(t('profile.alerts.sitter_updated','Sitter profile updated successfully!'));
 		} catch (error) {
 			console.error("Failed to update sitter profile:", error);
-			alert("Failed to update sitter profile. Please try again.");
+			alert(t('profile.alerts.sitter_update_failed','Failed to update sitter profile. Please try again.'));
 		} finally {
 			setSaving(false);
 		}
@@ -205,7 +207,7 @@ export default function Profile() {
 			alert("Availability updated successfully!");
 		} catch (error) {
 			console.error("Failed to update availability:", error);
-			alert("Failed to update availability. Please try again.");
+			alert(t('profile.alerts.availability_update_failed','Failed to update availability. Please try again.'));
 		} finally {
 			setSaving(false);
 		}
@@ -217,10 +219,10 @@ export default function Profile() {
 			await fetchPets();
 			setShowPetForm(false);
 			setPetForm({ name: "", species: "", breed: "", age: "", description: "" });
-			alert("Pet added successfully!");
+			alert(t('profile.alerts.pet_added','Pet added successfully!'));
 		} catch (error) {
 			console.error("Failed to add pet:", error);
-			alert(error.response?.data?.message || "Failed to add pet. Please try again.");
+			alert(error.response?.data?.message || t('profile.alerts.add_pet_failed','Failed to add pet. Please try again.'));
 		}
 	}
 
@@ -231,24 +233,24 @@ export default function Profile() {
 			setEditingPet(null);
 			setShowPetForm(false);
 			setPetForm({ name: "", species: "", breed: "", age: "", description: "" });
-			alert("Pet updated successfully!");
+			alert(t('profile.alerts.pet_updated','Pet updated successfully!'));
 		} catch (error) {
 			console.error("Failed to update pet:", error);
-			alert("Failed to update pet. Please try again.");
+			alert(t('profile.alerts.update_pet_failed','Failed to update pet. Please try again.'));
 		}
 	}
 
 	async function handleDeletePet(slug) {
-		if (!window.confirm("Are you sure you want to delete this pet?")) {
+		if (!window.confirm(t('profile.confirm.delete_pet','Are you sure you want to delete this pet?'))) {
 			return;
 		}
 		try {
 			await api.delete(`/api/profile/owner/pets/${slug}`);
 			await fetchPets();
-			alert("Pet deleted successfully!");
+			alert(t('profile.alerts.pet_deleted','Pet deleted successfully!'));
 		} catch (error) {
 			console.error("Failed to delete pet:", error);
-			alert("Failed to delete pet. Please try again.");
+			alert(t('profile.alerts.delete_pet_failed','Failed to delete pet. Please try again.'));
 		}
 	}
 
@@ -271,7 +273,7 @@ export default function Profile() {
 	}
 
 	async function handleDeleteAccount() {
-		if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+		if (!window.confirm(t('profile.confirm.delete_account','Are you sure you want to delete your account? This action cannot be undone.'))) {
 			return;
 		}
 
@@ -283,7 +285,7 @@ export default function Profile() {
 			navigate("/log-in");
 		} catch (error) {
 			console.error("Failed to delete account:", error);
-			alert("Failed to delete account. Please try again.");
+			alert(t('profile.alerts.delete_failed','Failed to delete account. Please try again.'));
 		}
 	}
 
@@ -651,14 +653,14 @@ export default function Profile() {
 				{loadingProfile ? (
 					<div className="loading-state">
 						<div className="spinner"></div>
-						<p>Loading profile...</p>
+						<p>{t('profile.loading','Loading profile...')}</p>
 					</div>
 				) : errorProfile ? (
 					<div className="error-state">
 						<div className="error-icon">⚠️</div>
 						<p>{errorProfile}</p>
 						<button className="btn-primary" onClick={fetchProfile} style={{ marginTop: 20 }}>
-							Try again
+							{t('auth.try_again','Try again')}
 						</button>
 					</div>
 				) : profile ? (

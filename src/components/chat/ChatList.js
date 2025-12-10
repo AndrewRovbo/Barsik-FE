@@ -28,7 +28,7 @@ const ChatList = ({ selectedChatId, onSelectChat }) => {
           onClick={() => onSelectChat(0)}
           className={selectedChatId === 0 ? "active" : ""}
         >
-          Общий чат
+          General Chat
         </li>
 
         {/* Личные чаты */}
