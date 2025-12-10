@@ -1,4 +1,3 @@
-// src/pages/Profile.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
@@ -17,7 +16,6 @@ export default function Profile() {
 	const [isEditing, setIsEditing] = useState(false);
 	const [saving, setSaving] = useState(false);
 
-	// Edit form states
 	const [editForm, setEditForm] = useState({
 		email: "",
 		firstName: "",
@@ -39,7 +37,6 @@ export default function Profile() {
 		sitterVerified: false
 	});
 
-	// Pets management for OWNER
 	const [pets, setPets] = useState([]);
 	const [loadingPets, setLoadingPets] = useState(false);
 	const [showPetForm, setShowPetForm] = useState(false);
@@ -52,7 +49,6 @@ export default function Profile() {
 		description: ""
 	});
 
-	// Availability management for SITTER
 	const [availability, setAvailability] = useState([]);
 	const [loadingAvailability, setLoadingAvailability] = useState(false);
 
@@ -62,7 +58,6 @@ export default function Profile() {
 
 	useEffect(() => {
 		if (profile && isEditing) {
-			// Initialize edit forms with current profile data
 			setEditForm({
 				email: profile.email || "",
 				firstName: profile.firstName || "",
@@ -116,7 +111,6 @@ export default function Profile() {
 				setLoadingProfile(false);
 				return;
 			} catch (e) {
-				// Continue to next endpoint
 			}
 		}
 
@@ -675,10 +669,8 @@ export default function Profile() {
 							</div>
 							<h1>{profile.name || (profile.firstName ? `${profile.firstName} ${profile.lastName || ""}`.trim() : "") || profile.email || "Profile"}</h1>
 							{(() => {
-								// Determine role from various possible sources
 								let userRole = profile.role || profile.userRole;
 								if (!userRole) {
-									// Try to infer role from profile data
 									if (profile.owner || profile.ownerProfile) {
 										userRole = "OWNER";
 									} else if (profile.sitter || profile.sitterProfile) {

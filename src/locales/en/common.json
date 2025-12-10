@@ -1,169 +1,169 @@
 {
-  "nav": {
-    "home": "HOME",
-    "about": "ABOUT US",
-    "faq": "FAQ",
-    "contacts": "CONTACTS",
-    "chat": "CHAT",
-    "profile": "PROFILE",
-    "login": "LOG IN",
-    "signup": "SIGN UP"
-  },
-  "finder": {
-    "im_looking": "I'm looking for:",
-    "choose_service": "Choose service",
-    "near": "Near:",
-    "search_location": "Search location...",
-    "find_a_sitter": "FIND A SITTER!"
-  },
-  "service": {
-    "boarding": "PET BOARDING",
-    "sitting": "PET SITTING",
-    "walking": "DOG WALKING",
-    "taxi": "PET TAXI",
-    "grooming": "PET GROOMING"
-  },
-  "hero": {
-    "the_trust": "The Trust",
-    "your_pet_deserves": "Your Pet Deserves"
-  },
-  "services": {
-    "title": "Our Services"
-  },
-  "how": {
-    "title": "How it works",
-    "find_sitter": {
-      "title": "Find a suitable sitter",
-      "desc": "Browse profiles, compare experience, reviews and availability to choose the right match for your pet."
-    },
-    "make_request": {
-      "title": "Make a request",
-      "desc": "Send a booking request, discuss details in chat, and confirm time, place and payment."
-    },
-    "meet_updates": {
-      "title": "Meet and get updates",
-      "desc": "Arrange a meet-and-greet, hand over instructions, and receive regular photo and text updates during the care."
-    }
-  },
-  "about": {
-    "welcome": "Welcome to <strong>Barsik</strong> — a neighbourhood pet-sitting service that looks after your pets with care, consistency and kindness. Whether you need daily visits, overnight stays, or long-term care, our team treats every animal as if they were our own.",
-    "what": {
-      "title": "What we do",
-      "item1": "Pet sitting — tailored visits to check, feed and play with your pet.",
-      "item2": "Pet boarding — safe overnight care in a home environment.",
-      "item3": "Dog walking — regular walks and exercise for dogs of all ages.",
-      "item4": "Pet taxi — secure transportation to vet or groomer.",
-      "item5": "Pet grooming — basic grooming and freshening for healthy coats."
-    },
-    "why": {
-      "title": "Why choose us",
-      "item1": "Insured and background-checked sitters",
-      "item2": "Personalised plans for each pet",
-      "item3": "Clear, friendly communication"
-    }
-  },
-  "footer": {
-    "contact_heading": "Have questions or need assistance?",
-    "contact_us": "Contact us:",
-    "email": "barsik@mail.com",
-    "phone": "+375 (xx) xxx-xx-xx",
-    "copyright": "© 2025 Barsik Inc. All Rights Reserved.",
-    "learn_more": "Learn More:",
-    "privacy": "Privacy Policy",
-    "terms": "Terms & Conditions"
-  },
-  "auth": {
-    "back": "Back",
-    "try_again": "Try again",
-    "or": "or"
-  },
-  "login": {
-    "title": "WELCOME BACK",
-    "email_placeholder": "Email",
-    "password_placeholder": "Password",
-    "signing_in": "Signing in...",
-    "log_in": "LOG IN",
-    "no_account": "No account yet?",
-    "sign_up": "Sign up",
-    "errors": {
-      "required": "Email and password are required.",
-      "connection": "Connection error: Backend server is not running. Make sure the backend is started on port 8080.",
-      "invalid_format": "Invalid email or password format.",
-      "invalid_credentials": "Incorrect email or password. Please try again.",
-      "server": "Server error. Please try again later.",
-      "failed": "Login failed. Please try again.",
-      "no_response": "No response from server. Check if backend is running.",
-      "unexpected": "An unexpected error occurred. Please try again."
-    }
-  },
-  "signup": {
-    "title": "JOIN US!",
-    "email_placeholder": "Email",
-    "password_placeholder": "Password",
-    "confirm_placeholder": "Confirm password",
-    "role_label": "Role",
-    "role_owner": "OWNER",
-    "role_sitter": "SITTER",
-    "registering": "REGISTERING...",
-    "register": "REGISTER",
-    "google_alt": "Google sign-in",
-    "google_placeholder": "Google sign-in placeholder",
-    "already": "Already have an account?",
-    "log_in": "Log in",
-    "success": "User registered successfully. Please log in.",
-    "errors": {
-      "email_required": "Email is required",
-      "invalid_email": "Enter a valid email",
-      "password_length": "Password must be at least 8 characters",
-      "password_mismatch": "Passwords do not match",
-      "connection": "Connection error: Backend server is not running. Make sure the backend is started on port 8080.",
-      "invalid_input": "Invalid input data. Please check your email and password.",
-      "exists": "Email already exists. Please use a different email.",
-      "server": "Server error. Please try again later.",
-      "failed": "Registration failed. Please try again.",
-      "no_response": "No response from server. Check if backend is running.",
-      "unexpected": "An unexpected error occurred. Please try again."
-    }
-  },
-  "profile": {
-    "alerts": {
-      "updated": "Profile updated successfully!",
-      "update_failed": "Failed to update profile. Please try again.",
-      "owner_updated": "Owner profile updated successfully!",
-      "owner_update_failed": "Failed to update owner profile. Please try again.",
-      "sitter_updated": "Sitter profile updated successfully!",
-      "sitter_update_failed": "Failed to update sitter profile. Please try again.",
-      "availability_updated": "Availability updated successfully!",
-      "availability_update_failed": "Failed to update availability. Please try again.",
-      "pet_added": "Pet added successfully!",
-      "add_pet_failed": "Failed to add pet. Please try again.",
-      "pet_updated": "Pet updated successfully!",
-      "update_pet_failed": "Failed to update pet. Please try again.",
-      "pet_deleted": "Pet deleted successfully!",
-      "delete_pet_failed": "Failed to delete pet. Please try again.",
-      "delete_failed": "Failed to delete account. Please try again."
-    },
-    "confirm": {
-      "delete_pet": "Are you sure you want to delete this pet?",
-      "delete_account": "Are you sure you want to delete your account? This action cannot be undone."
-    },
-    "loading": "Loading profile...",
-    "saving": "Saving...",
-    "edit": {
-      "basic_info": "Edit Basic Information",
-      "owner_profile": "Edit Owner Profile",
-      "sitter_profile": "Edit Sitter Profile"
-    },
-    "labels": {
-      "email": "Email",
-      "first_name": "First Name",
-      "last_name": "Last Name",
-      "phone": "Phone Number",
-      "avatar": "Avatar URL",
-      "address": "Address"
-    },
-    "actions": {
-      "save_user": "Save User Info"
-    }
-  }
+	"nav": {
+		"home": "HOME",
+		"about": "ABOUT US",
+		"faq": "FAQ",
+		"contacts": "CONTACTS",
+		"chat": "CHAT",
+		"profile": "PROFILE",
+		"login": "LOG IN",
+		"signup": "SIGN UP"
+	},
+	"finder": {
+		"im_looking": "I'm looking for:",
+		"choose_service": "Choose service",
+		"near": "Near:",
+		"search_location": "Search location...",
+		"find_a_sitter": "FIND A SITTER!"
+	},
+	"service": {
+		"boarding": "PET BOARDING",
+		"sitting": "PET SITTING",
+		"walking": "DOG WALKING",
+		"taxi": "PET TAXI",
+		"grooming": "PET GROOMING"
+	},
+	"hero": {
+		"the_trust": "The Trust",
+		"your_pet_deserves": "Your Pet Deserves"
+	},
+	"services": {
+		"title": "Our Services"
+	},
+	"how": {
+		"title": "How it works",
+		"find_sitter": {
+			"title": "Find a suitable sitter",
+			"desc": "Browse profiles, compare experience, reviews and availability to choose the right match for your pet."
+		},
+		"make_request": {
+			"title": "Make a request",
+			"desc": "Send a booking request, discuss details in chat, and confirm time, place and payment."
+		},
+		"meet_updates": {
+			"title": "Meet and get updates",
+			"desc": "Arrange a meet-and-greet, hand over instructions, and receive regular photo and text updates during the care."
+		}
+	},
+	"about": {
+		"welcome": "Welcome to <strong>Barsik</strong> — a neighbourhood pet-sitting service that looks after your pets with care, consistency and kindness. Whether you need daily visits, overnight stays, or long-term care, our team treats every animal as if they were our own.",
+		"what": {
+			"title": "What we do",
+			"item1": "Pet sitting — tailored visits to check, feed and play with your pet.",
+			"item2": "Pet boarding — safe overnight care in a home environment.",
+			"item3": "Dog walking — regular walks and exercise for dogs of all ages.",
+			"item4": "Pet taxi — secure transportation to vet or groomer.",
+			"item5": "Pet grooming — basic grooming and freshening for healthy coats."
+		},
+		"why": {
+			"title": "Why choose us",
+			"item1": "Insured and background-checked sitters",
+			"item2": "Personalised plans for each pet",
+			"item3": "Clear, friendly communication"
+		}
+	},
+	"footer": {
+		"contact_heading": "Have questions or need assistance?",
+		"contact_us": "Contact us:",
+		"email": "barsik@mail.com",
+		"phone": "+375 (xx) xxx-xx-xx",
+		"copyright": "© 2025 Barsik Inc. All Rights Reserved.",
+		"learn_more": "Learn More:",
+		"privacy": "Privacy Policy",
+		"terms": "Terms & Conditions"
+	},
+	"auth": {
+		"back": "Back",
+		"try_again": "Try again",
+		"or": "or"
+	},
+	"login": {
+		"title": "WELCOME BACK",
+		"email_placeholder": "Email",
+		"password_placeholder": "Password",
+		"signing_in": "Signing in...",
+		"log_in": "LOG IN",
+		"no_account": "No account yet?",
+		"sign_up": "Sign up",
+		"errors": {
+			"required": "Email and password are required.",
+			"connection": "Connection error: Backend server is not running. Make sure the backend is started on port 8080.",
+			"invalid_format": "Invalid email or password format.",
+			"invalid_credentials": "Incorrect email or password. Please try again.",
+			"server": "Server error. Please try again later.",
+			"failed": "Login failed. Please try again.",
+			"no_response": "No response from server. Check if backend is running.",
+			"unexpected": "An unexpected error occurred. Please try again."
+		}
+	},
+	"signup": {
+		"title": "JOIN US!",
+		"email_placeholder": "Email",
+		"password_placeholder": "Password",
+		"confirm_placeholder": "Confirm password",
+		"role_label": "Role",
+		"role_owner": "OWNER",
+		"role_sitter": "SITTER",
+		"registering": "REGISTERING...",
+		"register": "REGISTER",
+		"google_alt": "Google sign-in",
+		"google_placeholder": "Google sign-in placeholder",
+		"already": "Already have an account?",
+		"log_in": "Log in",
+		"success": "User registered successfully. Please log in.",
+		"errors": {
+			"email_required": "Email is required",
+			"invalid_email": "Enter a valid email",
+			"password_length": "Password must be at least 8 characters",
+			"password_mismatch": "Passwords do not match",
+			"connection": "Connection error: Backend server is not running. Make sure the backend is started on port 8080.",
+			"invalid_input": "Invalid input data. Please check your email and password.",
+			"exists": "Email already exists. Please use a different email.",
+			"server": "Server error. Please try again later.",
+			"failed": "Registration failed. Please try again.",
+			"no_response": "No response from server. Check if backend is running.",
+			"unexpected": "An unexpected error occurred. Please try again."
+		}
+	},
+	"profile": {
+		"alerts": {
+			"updated": "Profile updated successfully!",
+			"update_failed": "Failed to update profile. Please try again.",
+			"owner_updated": "Owner profile updated successfully!",
+			"owner_update_failed": "Failed to update owner profile. Please try again.",
+			"sitter_updated": "Sitter profile updated successfully!",
+			"sitter_update_failed": "Failed to update sitter profile. Please try again.",
+			"availability_updated": "Availability updated successfully!",
+			"availability_update_failed": "Failed to update availability. Please try again.",
+			"pet_added": "Pet added successfully!",
+			"add_pet_failed": "Failed to add pet. Please try again.",
+			"pet_updated": "Pet updated successfully!",
+			"update_pet_failed": "Failed to update pet. Please try again.",
+			"pet_deleted": "Pet deleted successfully!",
+			"delete_pet_failed": "Failed to delete pet. Please try again.",
+			"delete_failed": "Failed to delete account. Please try again."
+		},
+		"confirm": {
+			"delete_pet": "Are you sure you want to delete this pet?",
+			"delete_account": "Are you sure you want to delete your account? This action cannot be undone."
+		},
+		"loading": "Loading profile...",
+		"saving": "Saving...",
+		"edit": {
+			"basic_info": "Edit Basic Information",
+			"owner_profile": "Edit Owner Profile",
+			"sitter_profile": "Edit Sitter Profile"
+		},
+		"labels": {
+			"email": "Email",
+			"first_name": "First Name",
+			"last_name": "Last Name",
+			"phone": "Phone Number",
+			"avatar": "Avatar URL",
+			"address": "Address"
+		},
+		"actions": {
+			"save_user": "Save User Info"
+		}
+	}
 }

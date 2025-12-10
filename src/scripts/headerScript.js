@@ -14,7 +14,6 @@ export function initNavAnimation(nav, currentPath = '') {
 	}
 	indicator.classList.add('initializing');
 
-	// Если мы на странице профиля, скрываем индикатор
 	const isProfilePage = currentPath === '/profile';
 	
 	let active = nav.querySelector('a.active');
@@ -36,7 +35,6 @@ export function initNavAnimation(nav, currentPath = '') {
 		indicator.style.opacity = '0';
 	}
 	
-	// Если нет активного элемента в nav или мы на странице профиля, скрываем индикатор
 	if (!active || isProfilePage) {
 		hideIndicator();
 		indicator.classList.remove('initializing');
@@ -82,7 +80,6 @@ export function initNavAnimation(nav, currentPath = '') {
 		nav.removeEventListener('mouseleave', onLeave);
 		window.removeEventListener('resize', onResize);
 		window.removeEventListener('load', onLoad);
-		// можно оставить индикатор или удалить:
 		if (indicator && indicator.parentNode === nav) nav.removeChild(indicator);
 	};
 }
@@ -111,22 +108,62 @@ export function initLanguageSwitch(root) {
 
 		if (save) localStorage.setItem('siteLang', code);
 
-		// map visual code to i18next language codes and change language
 		const map = { EN: 'en', RU: 'ru', BE: 'be', ZH: 'zh' };
 		const lng = map[code] || code.toLowerCase();
 		if (i18n && typeof i18n.changeLanguage === 'function') {
-			try { i18n.changeLanguage(lng); } catch (e) { /* ignore */ }
+			try { i18n.changeLanguage(lng); } catch (e) { }
 		}
 
-		// Add/remove class on <html> so CSS can target Chinese locale
 		try {
 			const root = document.documentElement;
 			if (code === 'ZH' || lng === 'zh') {
 				root.classList.add('lang-zh');
+				let styleId = 'lang-zh-override';
+				let existingStyle = document.getElementById(styleId);
+				if (!existingStyle) {
+					const style = document.createElement('style');
+					style.id = styleId;
+					style.textContent = `
+					html.lang-zh h1,
+					html.lang-zh h2,
+					html.lang-zh h3,
+					html.lang-zh h4,
+					html.lang-zh h5,
+					html.lang-zh h6 {
+						font-family: "Libre Baskerville", "Gentium Plus", system-ui, sans-serif !important;
+					}
+					html.lang-zh p,
+					html.lang-zh span,
+					html.lang-zh a,
+					html.lang-zh button,
+					html.lang-zh label,
+					html.lang-zh div,
+					html.lang-zh section,
+					html.lang-zh article {
+						font-family: "Montserrat", system-ui, sans-serif !important;
+					}
+					html.lang-zh input,
+					html.lang-zh textarea,
+					html.lang-zh select,
+					html.lang-zh option {
+						font-family: "Montserrat", system-ui, sans-serif !important;
+					}
+					html.lang-zh em,
+					html.lang-zh i,
+					html.lang-zh .italic {
+						font-family: "Montserrat", system-ui, sans-serif !important;
+					}
+					`;
+					document.head.appendChild(style);
+				}
 			} else {
 				root.classList.remove('lang-zh');
+				let existingStyle = document.getElementById('lang-zh-override');
+				if (existingStyle) {
+					existingStyle.remove();
+				}
 			}
-		} catch (e) { /* ignore when running outside browser */ }
+		} catch (e) { }
 	}
 
 	const onBtnClick = (e) => {

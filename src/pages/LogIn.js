@@ -30,28 +30,23 @@ const { saveUser } = useContext(UserContext);
 		try {
 			const res = await api.post("/api/auth/login", { email, password });
 
-			// Debug: log the response
 			console.log('Login response:', {
 				data: res.data,
 				status: res.status,
 				statusText: res.statusText
 			});
 
-			// Store user info in localStorage
-			// Support both 'username' and 'Username' field names from backend
 			const userData = {
 				email: res.data.username || res.data.Username || res.data.email || email,
 				roles: res.data.roles || []
 			};
 			
-			// Store token if present
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				userData.token = res.data.token || res.data.accessToken || res.data.jwt;
 			}
 			
 			localStorage.setItem("user", JSON.stringify(userData));
             saveUser(userData);
-			// Store token in cookie if present in response body
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				const token = res.data.token || res.data.accessToken || res.data.jwt;
 				const expires = new Date();
@@ -60,8 +55,8 @@ const { saveUser } = useContext(UserContext);
 				
 				document.cookie = `JWT_TOKEN=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
 				connectWebSocket((message) => {
-  console.log("New message:", message);
-});
+					console.log("New message:", message);
+				});
 				console.log('Token stored in cookie');
 			}
 

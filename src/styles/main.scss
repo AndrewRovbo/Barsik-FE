@@ -1,148 +1,144 @@
 @import "_common.scss";
 
-/* HERO */
-
 .hero {
-    display: flex;
-    justify-content: center;
-    background: var(--cream);
-    height: 400px;
-    align-items: center;
-    padding: 0;
+	display: flex;
+	justify-content: center;
+	background: var(--cream);
+	height: 400px;
+	align-items: center;
+	padding: 0;
 
-    > .main-wrap {
-        display: flex;
-        gap: 182px;
-        align-items: center;
-        width: 100%;
-        max-width: var(--container);
-    }
+	> .main-wrap {
+		display: flex;
+		gap: 182px;
+		align-items: center;
+		width: 100%;
+		max-width: var(--container);
+	}
 
-    .left {
-        flex: 0 0 287px;
-    }
+	.left {
+		flex: 0 0 287px;
+	}
 
-    .finder {
-        background: transparent;
+	.finder {
+		background: transparent;
 
-        label {
-            display: block;
-            color: #fff8ea;
-            font-family: "Libre Baskerville";
-            font-style: italic;
-            font-size: 18px;
-            margin-bottom: 5px;
-            margin-left: 20px;
-        }
-    }
+		label {
+			display: block;
+			color: #fff8ea;
+			font-family: "Libre Baskerville";
+			font-style: italic;
+			font-size: 18px;
+			margin-bottom: 5px;
+			margin-left: 20px;
+		}
+	}
 
-    .cta {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        height: 50px;
-        width: 405px;
-        padding: 0 18px;
-        border-radius: 10px;
-        background-color: var(--lavender);
-        font-family: "Libre Baskerville";
-        font-weight: bold;
-        letter-spacing: 3px;
-        line-height: normal;
-        margin-top: 30px;
-        box-shadow: 0 2px 0 rgba(0,0,0,0.03);
-        transition: background-color 0.2s ease-in;
+	.cta {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		height: 50px;
+		width: 405px;
+		padding: 0 18px;
+		border-radius: 10px;
+		background-color: var(--lavender);
+		font-family: "Libre Baskerville";
+		font-weight: bold;
+		letter-spacing: 3px;
+		line-height: normal;
+		margin-top: 30px;
+		box-shadow: 0 2px 0 rgba(0,0,0,0.03);
+		transition: background-color 0.2s ease-in;
 
-        &:hover {
-            background-color: #b5a3d6;
-        }
-    }
+		&:hover {
+			background-color: #b5a3d6;
+		}
+	}
 
-    .right {
-        flex: 1;
-        text-align: right;
-        color: #fff;
+	.right {
+		flex: 1;
+		text-align: right;
+		color: #fff;
 
-        h1 {
-            font-size: 45px;
-            text-align: right;
-        }
-    }
+		h1 {
+			font-size: 45px;
+			text-align: right;
+		}
+	}
 }
 
-/* MAIN */
-
 .services-title {
-    text-align: center;
+	text-align: center;
 }
 
 .services {
-    max-width: var(--container);
-    padding: 0 30px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-gap: 20px;
+	max-width: var(--container);
+	padding: 0 30px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	grid-gap: 20px;
 
-    .big {
-        grid-column: span 1;
-    }
+	.big {
+		grid-column: span 1;
+	}
 }
 
 .card {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
+	position: relative;
+	border-radius: 20px;
+	overflow: hidden;
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: opacity 0.2s ease-in;
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		transition: opacity 0.2s ease-in;
 
-        &:hover {
-            opacity: 0.8;
-        }
-    }
+		&:hover {
+			opacity: 0.8;
+		}
+	}
 
-    .label {
-        position: absolute;
-        font-size: 18px;
-        left: 30px;
-        bottom: 18px;
-        color: #fff;
-        font-weight: bold;
-    }
+	.label {
+		position: absolute;
+		font-size: 18px;
+		left: 30px;
+		bottom: 18px;
+		color: #fff;
+		font-weight: bold;
+	}
 }
 
 .grid-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
 
-    .small {
-        min-height: 110px;
-    }
+	.small {
+		min-height: 110px;
+	}
 }
 
 .how {
-    max-width: var(--container);
-    padding: 0 30px;
-    margin: 0 auto;
-    text-align: center;
-    margin-bottom: 60px;
+	max-width: var(--container);
+	padding: 0 30px;
+	margin: 0 auto;
+	text-align: center;
+	margin-bottom: 60px;
 
-    .cols {
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        gap: 20px;
-        margin-top: 18px;
-    }
+	.cols {
+		display: grid;
+		grid-template-columns: repeat(3,1fr);
+		gap: 20px;
+		margin-top: 18px;
+	}
 
-    h3 {
-        font-weight: bold;
-        font-size: 18px;
-        margin-bottom: 13px;
-    }
+	h3 {
+		font-weight: bold;
+		font-size: 18px;
+		margin-bottom: 13px;
+	}
 }
