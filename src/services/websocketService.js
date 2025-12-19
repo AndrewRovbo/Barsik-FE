@@ -67,12 +67,15 @@ export const sendChatMessage = (msg) => {
 		console.warn("WS not connected");
 		return;
 	}
-
+console.log("MESSA", msg);
 	const destination =
 		msg.chatId === 0 ? "/app/chat.broadcast" : "/app/chat.sendMessage";
-
+console.log("dest", destination);
 	stompClient.publish({
 		destination,
 		body: JSON.stringify(msg),
 	});
+	console.log("Sending message", JSON.stringify(msg));
 };
+
+

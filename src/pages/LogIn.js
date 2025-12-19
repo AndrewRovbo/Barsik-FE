@@ -31,21 +31,24 @@ const { saveUser } = useContext(UserContext);
 			const res = await api.post("/api/auth/login", { email, password });
 
 			console.log('Login response:', {
+                id: res.data.id, // <- сохраняем id
 				data: res.data,
 				status: res.status,
 				statusText: res.statusText
 			});
 
 			const userData = {
-				email: res.data.username || res.data.Username || res.data.email || email,
-				roles: res.data.roles || []
-			};
+    id: res.data.id, // <- сохраняем ID здесь
+    email: res.data.username || res.data.Username || res.data.email || email,
+    roles: res.data.roles || []
+  };
+
 			
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				userData.token = res.data.token || res.data.accessToken || res.data.jwt;
 			}
-			
-			localStorage.setItem("user", JSON.stringify(userData));
+			// Используем sessionStorage вместо localStorage
+            sessionStorage.setItem("user", JSON.stringify(userData));
             saveUser(userData);
 			if (res.data.token || res.data.accessToken || res.data.jwt) {
 				const token = res.data.token || res.data.accessToken || res.data.jwt;

@@ -9,9 +9,9 @@ import { useTranslation } from 'react-i18next';
 export default function Profile() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-
+  const [loading, setLoading] = useState(true);
 	const [profile, setProfile] = useState(null);
-	const [loadingProfile, setLoadingProfile] = useState(true);
+
 	const [errorProfile, setErrorProfile] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const [saving, setSaving] = useState(false);
@@ -90,33 +90,20 @@ export default function Profile() {
 		}
 	}, [profile, isEditing]);
 
-	async function fetchProfile() {
-		setLoadingProfile(true);
-		setErrorProfile(null);
-		setProfile(null);
-
-		const endpoints = [
-			"/api/profile",
-			"/api/auth/me",
-			"/api/users/me",
-			"/api/user/me"
-		];
-
-		for (const url of endpoints) {
-			try {
-				const res = await api.get(url);
-				console.log("Profile data received:", res.data);
-				console.log("Role in profile:", res.data?.role, res.data?.userRole);
-				setProfile(res.data);
-				setLoadingProfile(false);
-				return;
-			} catch (e) {
-			}
-		}
-
-		setErrorProfile(t('profile.errors.load_failed','Failed to load profile. Please try again later.'));
-		setLoadingProfile(false);
-	}
+	const fetchProfile = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/api/profile", {
+  withCredentials: true // обязательно, чтобы браузер отправил куки
+});
+      setProfile(res.data);
+    } catch (err) {
+      console.error(err);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 	async function fetchPets() {
 		const role = (profile?.role || "").toUpperCase();
@@ -644,7 +631,7 @@ export default function Profile() {
 			<Header />
 			
 			<div className="profile-wrap">
-				{loadingProfile ? (
+				{loading ? (
 					<div className="loading-state">
 						<div className="spinner"></div>
 						<p>{t('profile.loading','Loading profile...')}</p>

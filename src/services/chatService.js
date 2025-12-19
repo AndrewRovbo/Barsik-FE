@@ -1,11 +1,17 @@
 import { api } from "./api";
 
 export const getChatMessages = async (chatId, page = 0, size = 20) => {
-	const res = await api.get(`/api/chats/${chatId}/messages?page=${page}&size=${size}`);
-	return res.data;
+  const res = await api.get(`/api/chats/${chatId}/messages?page=${page}&size=${size}`, {
+    withCredentials: true // обязательно, чтобы браузер отправил HttpOnly cookie
+  });
+  return res.data;
 };
 
 export const sendMessage = async ({ chatId, senderId, content }) => {
 	const res = await api.post(`/api/chats/send`, { chatId, senderId, content, type: "TEXT" });
 	return res.data;
 };
+
+
+
+
