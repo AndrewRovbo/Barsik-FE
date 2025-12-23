@@ -38,7 +38,7 @@ const ChatPage = () => {
       <ChatList selectedChatId={selectedChatId} onSelectChat={setSelectedChatId} setChatPartner={setChatPartner} />
       
       {/* Передаем информацию о выбранном чате и собеседнике в ChatWindow */}
-      <ChatWindow chatId={selectedChatId} users={users} chatPartner={chatPartner} />
+      <ChatWindow selectedChatId={selectedChatId}  users={users} chatPartner={chatPartner} />
 
       <ChatNavMenue />
     </div>

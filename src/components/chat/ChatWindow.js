@@ -4,39 +4,42 @@ import { connectWebSocket } from "../../services/websocketService";
 import { UserContext } from "../../UserContext";
 import "../../styles/ChatPage.scss";
 
-const ChatWindow = ({ chatId, users, chatPartner }) => {
+const ChatWindow = ({ selectedChatId, users, chatPartner }) => {
   const [messages, setMessages] = useState([]);
   const { user: currentUser } = useContext(UserContext);
   const messagesEndRef = useRef(null);
-
-  // Определяем партнера чата для личных сообщений
-  
-
-  // Обработчик входящих сообщений
+  const wsClientRef = useRef(null);
+   const chatId = selectedChatId === 0 ? 0 : 1;
+  // Очистка сообщений при смене чата
   useEffect(() => {
-    if (!currentUser) return;
+    setMessages([]);
+  }, [selectedChatId]);
+
+  // WS-подписка на выбранный чат
+  useEffect(() => {
+    
 
     const handleMessage = (msg) => {
       const isMe = currentUser.id === msg.senderId;
-
-      // Получаем данные о пользователе (имя и аватарка)
       const senderInfo = users.find(u => u.id === msg.senderId);
-	 
       const senderName = senderInfo?.firstName ?? senderInfo?.name ?? (isMe ? "Me" : "Unknown");
       const senderAvatar = senderInfo?.avatarUrl ?? "/default-avatar.png";
 
-      // Обрабатываем только те сообщения, которые соответствуют выбранному чату
-      if ((chatId === 0 && msg.chatId === 0) || (chatId !== 0 && msg.chatId === chatId)) {
-        setMessages(prev => [...prev, { ...msg, isMe, senderName, senderAvatar }]);
-      }
+      setMessages(prev => [...prev, { ...msg, isMe, senderName, senderAvatar }]);
     };
 
-    // Подключаем WebSocket для получения сообщений
-	setMessages([]);
-    connectWebSocket(handleMessage);
+    // Подключаем WS к выбранному чату
+    const client = connectWebSocket(handleMessage, chatId);
+    wsClientRef.current = client;
+
+    return () => {
+      // Отключаем WS при смене чата
+      client.deactivate();
+      wsClientRef.current = null;
+    };
   }, [chatId, currentUser, users]);
 
-  // Прокрутка чата вниз при обновлении сообщений
+  // Автопрокрутка вниз при новых сообщениях
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -47,24 +50,20 @@ const ChatWindow = ({ chatId, users, chatPartner }) => {
     <div className="chat-window">
       <div className="chat-window__header">
         {chatId === 0 ? (
-          <h3>General chat</h3> // Общий чат
+          <h3>General chat</h3>
         ) : chatPartner ? (
-          <h3>{chatPartner.firstName ?? chatPartner.name}</h3> // Личный чат с партнером
+          <h3>{chatPartner.firstName ?? chatPartner.name}</h3>
         ) : (
-          <h3>Chat</h3> // Стандартное название чата
+          <h3>Chat</h3>
         )}
       </div>
 
       <div className="chat-window__messages">
         {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`chat-window__message ${msg.isMe ? "from-me" : "from-oth"}`}
-          >
+          <div key={i} className={`chat-window__message ${msg.isMe ? "from-me" : "from-oth"}`}>
             <div className="msg-avatar">
               <img src={msg.senderAvatar} alt={msg.senderName} />
             </div>
-
             <div className="chat-window__bubble">
               {!msg.isMe && <strong>{msg.senderName}</strong>}
               <p>{msg.content}</p>

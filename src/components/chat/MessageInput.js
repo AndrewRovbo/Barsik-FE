@@ -8,20 +8,19 @@ const MessageInput = ({ chatId, recipientId }) => {
   const { user: currentUser } = useContext(UserContext);
 
   const submit = () => {
-    if (!text.trim()) return;
+    if (!text.trim() || !currentUser) return;
 
     const messageData = {
-      chatId: chatId ?? 0,  
-      content: text,
+      chatId: chatId ?? 0,             // 0 = глобальный чат
+      content: text.trim(),
       type: "MESSAGE",
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
       senderId: currentUser.id,
       recipientId: chatId !== 0 ? recipientId : null,  
     };
 
-    sendChatMessage(messageData);  
-	
-    setText("");  
+    sendChatMessage(messageData);  // отправка через WS
+    setText("");                    // очистка поля
   };
 
   return (
@@ -30,8 +29,8 @@ const MessageInput = ({ chatId, recipientId }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Write a message..."
-        onKeyPress={(e) => {
-          if (e.key === "Enter") submit();  
+        onKeyDown={(e) => {
+          if (e.key === "Enter") submit();  // Enter = отправка
         }}
       />
       <button onClick={submit}>➤</button>

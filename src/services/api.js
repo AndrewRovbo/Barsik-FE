@@ -66,3 +66,6 @@ export const getChatMessages = (chatId, page = 0, size = 20) =>
 
 export const sendMessage = (message) =>
   api.post('/api/chats/send', message, { withCredentials: true });
+
+export const getUserChats = (userId) =>
+  api.get(`/api/chats/user/${userId}`, { withCredentials: true });

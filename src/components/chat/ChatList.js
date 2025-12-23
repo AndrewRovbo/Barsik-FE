@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { getUsers } from "../../services/api";
+import { getUsers, getUserChats } from "../../services/api";
 import "../../styles/ChatPage.scss";
 import { UserContext } from "../../UserContext"; // Подключаем контекст с текущим пользователем
 
